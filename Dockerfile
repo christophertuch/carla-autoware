@@ -36,6 +36,13 @@ RUN echo "export PYTHON2_EGG=$(ls /home/autoware/PythonAPI | grep py2.)" >> .bas
 # packages.
 USER root
 RUN rm -f /etc/apt/sources.list.d/ros1-latest.list
+RUN sudo apt install curl
+
+RUN apt-key del 7fa2af80
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu2004/x86_64/7fa2af80.pub
+
+
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 4B63CF8FDE49746E98FA01DDAD19BAB3CBF125EA
 RUN sh -c 'echo "deb http://snapshots.ros.org/melodic/2020-08-07/ubuntu $(lsb_release -sc) main" >> /etc/apt/sources.list.d/ros-snapshots.list'
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -44,6 +51,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ros-melodic-ackermann-msgs \
         ros-melodic-derived-object-msgs \
     && rm -rf /var/lib/apt/lists/*
+RUN python -m pip install -U pip
+RUN pip install --upgrade setuptools
+RUN pip install ez_setup
+
 RUN pip install transforms3d simple-pid pygame networkx==2.2
 
 USER autoware
@@ -75,10 +86,10 @@ RUN echo "export CARLA_AUTOWARE_CONTENTS=~/autoware-contents" >> .bashrc \
 USER root
 
 # (Optional) Install vscode
-RUN apt-get update
-RUN apt-get install -y software-properties-common apt-transport-https wget
-RUN wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | apt-key add -
-RUN add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-RUN apt-get -y install code
+# RUN apt-get update
+# RUN apt-get install -y software-properties-common apt-transport-https wget
+# RUN wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | apt-key add -
+# RUN add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+# RUN apt-get -y install code
 
 CMD ["/bin/bash"]
