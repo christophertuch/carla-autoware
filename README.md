@@ -38,7 +38,7 @@ This will generate a `carla-autoware:latest` docker image.
 
 1. Run a CARLA server.
 
-```
+```sh
 docker run --privileged --gpus all --net=host -e DISPLAY=$DISPLAY carlasim/carla:0.9.11 /bin/bash ./CarlaUE4.sh -ResX=480 -ResY=360
 ```
 
@@ -52,6 +52,12 @@ This will start an interactive shell inside the container. To start the agent ru
 
 ```sh
 roslaunch carla_autoware_agent carla_autoware_agent.launch town:=Town01
+```
+*Troubleahooting*
+
+If Carla in Docker doesn't run at first start because of a xdg_runtime_dir not set Error, run this command:
+```sh
+xhost local:root
 ```
 
 ## CARLA Autoware contents
