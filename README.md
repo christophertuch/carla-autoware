@@ -53,7 +53,7 @@ This will start an interactive shell inside the container. To start the agent ru
 ```sh
 roslaunch carla_autoware_agent carla_autoware_agent.launch town:=Town01
 ```
-*Troubleahooting*
+**Troublehooting**
 
 If Carla in Docker doesn't run at first start because of a xdg_runtime_dir not set Error, run this command:
 ```sh
